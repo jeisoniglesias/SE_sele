@@ -1,0 +1,138 @@
+{% extends "./layout/base.html" %} {% block title %} Inicio - Sistemas
+Expertos{% endblock%} {% block extra_css %}
+<style>
+  /* Estilos personalizados para el tab activo */
+  .nav-tabs .nav-link.active {
+    background-color: #fff; /* Color rojo de Bootstrap */
+    border-color: #fff;
+  }
+  .nav-tabs .nav-link:not(.active):hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+  }
+  /* Color del contenido del tab */
+  .tab-content {
+    background-color: #fff;
+
+    padding: 15px;
+    border-radius: 0 0 5px 5px;
+  }
+</style>
+{% endblock %} {% block content %}
+<!--contenido-->
+<div class="m-2 p-2 py-3">
+  <h1 class="text-center mb-4">Designed for engineers</h1>
+  <p class="text-center mb-4">Build anything you want with Aperture</p>
+
+  <div class="container mt-5">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link active"
+          id="home-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#home"
+          type="button"
+          role="tab"
+          aria-controls="home"
+          aria-selected="true"
+        >
+          Inicio
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="profile-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#profile"
+          type="button"
+          role="tab"
+          aria-controls="profile"
+          aria-selected="false"
+        >
+          Perfil
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="contact-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#contact"
+          type="button"
+          role="tab"
+          aria-controls="contact"
+          aria-selected="false"
+        >
+          Contacto
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div
+        class="tab-pane fade show active"
+        id="home"
+        role="tabpanel"
+        aria-labelledby="home-tab"
+      >
+        <h2>Contenido de Inicio</h2>
+        <p>
+          Este es el contenido de la pestaña de inicio. Aquí puedes poner
+          cualquier información relevante para la página principal.
+        </p>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="profile"
+        role="tabpanel"
+        aria-labelledby="profile-tab"
+      >
+        <h2>Contenido del Perfil</h2>
+        <p>
+          Aquí puedes mostrar información del perfil del usuario o cualquier
+          otro contenido relacionado con perfiles.
+        </p>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="contact"
+        role="tabpanel"
+        aria-labelledby="contact-tab"
+      >
+        <h2>Información de Contacto</h2>
+        <p>
+          Esta sección puede contener información de contacto o un formulario
+          para que los usuarios se pongan en contacto.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="#learn-more" class="btn btn-primary me-2">Learn more</a>
+    <a href="#buy" class="btn btn-success">Buy</a>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var tabs = document.querySelectorAll("#myTab button");
+    var tabPanes = document.querySelectorAll(".tab-pane");
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener("shown.bs.tab", function (event) {
+        // Remover la clase text-bg-light de todos los tab-pane
+        tabPanes.forEach(function (pane) {
+          pane.classList.remove("text-bg-light");
+        });
+
+        // Agregar la clase text-bg-light al tab-pane activo
+        var activePane = document.querySelector(
+          event.target.getAttribute("data-bs-target")
+        );
+        activePane.classList.add("text-bg-light");
+      });
+    });
+  });
+</script>
+{% endblock %}

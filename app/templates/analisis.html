@@ -1,0 +1,144 @@
+{% extends "./layout/base.html" %} {% block title %} Analizar Documento Antiguo
+- Sistemas Expertos{% endblock%} {% block extra_css %}
+<style>
+  .upload-area {
+    border: 2px dashed #3498db;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+  }
+  .upload-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .upload-btn:hover {
+    background-color: #2980b9;
+  }
+  #result {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+  #previewImage {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+  }
+  .analysis-section {
+    margin-bottom: 20px;
+  }
+  .analysis-section p {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 3px solid #3498db;
+  }
+  .transcription,
+  .historical-analysis {
+    margin-bottom: 20px;
+  }
+  .transcription p,
+  .historical-analysis p {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 3px solid #3498db;
+  }
+  @media (min-width: 768px) {
+    #previewImage {
+      float: right;
+      max-width: 50%;
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<!--contenido-->
+<div class="m-2 p-2 py-3">
+  <h1>Sistema Experto para Análisis de Documentos Antiguos</h1>
+
+  <form
+    id="uploadForm"
+    action="{{ url_for('analisis') }}"
+    method="post"
+    enctype="multipart/form-data"
+    class="upload-area"
+  >
+    <p class="mb-4">Sube una imagen de un documento antiguo para analizarlo</p>
+
+    <input type="file" name="image" id="image" style="display: none" />
+    <input
+      type="button"
+      value="Subir imagen"
+      class="upload-btn"
+      onclick="document.getElementById('image').click()"
+    />
+  </form>
+
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <div class="alert alert-danger" role="alert">
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %} {% endwith %} {% if image_name %}
+  <div id="result">
+    <h2>Resultados del análisis</h2>
+
+    <img
+      id="previewImage"
+      src="{{ url_for('show_image', image_name=image_name) }}"
+    />
+    {% if 'noEsDocumento' in data %}
+    <div class="analysis-section">
+      <h3>Descripcion:</h3>
+      <p>{{ data.noEsDocumento }}</p>
+    </div>
+    {% else %}
+    <div class="analysis-section">
+      <h3>Tipo de Documento:</h3>
+      <p id="tipoDocumento">{{ data.tipoDocumento }}</p>
+    </div>
+    <div class="analysis-section">
+      <h3>Nombre:</h3>
+      <p id="nombre">{{ data.nombre }}</p>
+    </div>
+    <div class="analysis-section">
+      <h3>Tipografía:</h3>
+      <p id="tipografia">{{ data.tipografia }}</p>
+    </div>
+    <div class="analysis-section">
+      <h3>Contenido:</h3>
+      <p id="contenido">{{ data.contenido }}</p>
+    </div>
+    <div class="analysis-section">
+      <h3>Idioma:</h3>
+      <p id="idioma">{{ data.idioma }}</p>
+    </div>
+
+    {% endif %} {% endif %}
+  </div>
+
+  {% endblock %} {% block extra_js %}
+  <script>
+    document.getElementById("image").addEventListener("change", function (e) {
+      if (e.target.files.length > 0) {
+        document.getElementById("uploadForm").submit();
+      }
+    });
+  </script>
+  {% endblock %}
+</div>
